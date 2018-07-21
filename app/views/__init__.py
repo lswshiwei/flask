@@ -5,12 +5,11 @@ from .user import user
 
 # 蓝图
 BEFAULT_BLUEPRINT = (
-    main,
-    user,
-    posts
+    (main, ''),
+    (user, '/user'),
+    (posts, '/posts')
 )
 
-
 def register_blueprint(app):
-    for blue_name in BEFAULT_BLUEPRINT:
-        app.register_blueprint(blue_name)
+    for blue_name, prefix in BEFAULT_BLUEPRINT:
+        app.register_blueprint(blue_name, url_prefix=prefix)
