@@ -1,0 +1,27 @@
+分析需求：
+    1、用户登录、注册
+    2、个人信息管理（头像）
+    3、博客的发表和回复
+    4、列表、分页展示
+    5、博客的收藏
+    6、搜索、统计、排序等
+
+目录结构：
+    falsk/
+        manager.py
+        requirements.txt  #依赖包列表文件
+        venv/
+        migrations/     #数据库迁移目录
+        app/            #整个程序目录
+           templates
+           static
+           views
+           models
+           forms   #表单类
+           config
+           extensions #扩展文件
+           __init__.py  包文件
+           email      邮件发送功能文件
+
+
+
