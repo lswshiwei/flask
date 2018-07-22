@@ -1,0 +1,5 @@
+<h1>  {{ username }}, 您好!</h1>
+<h4>请您点击右边‘激活’进行账号激活,
+    <a href="{{ url_for('user.activate', token=token, _external=True) }}">激活</a>
+</h4>
+{#_external=True外部跳转#}

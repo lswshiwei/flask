@@ -10,7 +10,7 @@ def creat_app(config_name):
     app = Flask(__name__)
     # 初始化配置
     if config_name not in config:
-        config_name = 'default'
+        config_name = 'develop'
     app.config.from_object(config[config_name])
     # 初始化函数调用
     init_extension(app)

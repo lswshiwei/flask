@@ -15,25 +15,27 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     # 邮件发送
     MAIL_SERVER = 'smtp.163.com'
-    # 有户名
+    # 邮箱账号
     MAIL_USERNAME = '17324811724@163.com'
-    MAIL_PASSWORD = os.getenv('MAIL_PASSWORD', '123564')
+    # 授权码
+    MAIL_PASSWORD = 'shiwei163'
+    MAIL_PORT = 25
 
 
 # 开发环境
 class Develop_config(Config):
     # 数据库名字
-    SQLALCHEMY_DATABASE_URL = 'sqlite:///' + os.path.join(base_dir, 'blog-dev.sqlite')
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(base_dir, 'blog-dev.db')
 
 
 # 测试环境
 class Testing_congif(Config):
-    SQLALCHEMY_DATABASE_URL = 'sqlite:///' + os.path.join(base_dir, 'blog-test.sqlite')
+    SQLALCHEMY_DATABASE_URLI = 'sqlite:///' + os.path.join(base_dir, 'blog-test.db')
 
 
 # 生产环境
 class Product_config(Config):
-    SQLALCHEMY_DATABASE_URL = 'sqlite:///' + os.path.join(base_dir, 'blog.sqlite')
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(base_dir, 'blog.db')
 
 
 # 配置字典

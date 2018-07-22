@@ -1,6 +1,8 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
-from wtforms.validators import Length, EqualTo, Email
+from wtforms.validators import Length, EqualTo, Email, ValidationError
+
+from .models import User
 
 
 # 注册表单
@@ -10,3 +12,15 @@ class Register(FlaskForm):
     confirm = PasswordField('确认密码:', validators=[EqualTo('password', message='密码不一致')])
     email = StringField('邮箱:', validators=[Email(message='邮箱格式不正确')])
     submit = SubmitField('马上注册')
+
+    #     o自定义验证
+    def validate_username(self, field):
+        # 自定义验证username
+        if User.query.filter(User.username == field).first():
+            raise ValidationError('用户已经存在，请使用其他用户名！')
+
+        # 自定义验证email
+
+    def validate_email(self, field):
+        if User.query.filter(User.emil == field).first():
+            raise ValidationError('该邮箱已经注册！')

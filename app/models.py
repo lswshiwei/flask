@@ -7,4 +7,4 @@ class User(db.Model):
     username = db.Column(db.String(50), unique=True)
     password = db.Column(db.String(50))
     emil = db.Column(db.String(50), unique=True)
-    cinfirmed = db.Column(db.Boolean, dafault=False)
+    cinfirmed = db.Column(db.Boolean, default=False)
