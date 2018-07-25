@@ -3,7 +3,7 @@ from itsdangerous import JSONWebSignatureSerializer as Serializer
 
 from app.email import send_mail
 from app.extentions import db
-from app.forms import Register
+from app.forms import Register, login_form
 from app.models import User
 
 user = Blueprint('user', __name__)
@@ -17,7 +17,8 @@ def register():
         # form.validate_email(form.email.data)
         # form.validate_username(form.username.data)
         # 根据表单数据 创建用户对象
-        u = User(username=form.username.data, password=form.password.data,
+        u = User(username=form.username.data,
+                 password=form.password.data,
                  emil=form.email.data)
         # 把用户信息保存到数据库
         db.session.add(u)
@@ -36,6 +37,7 @@ def register():
 # 激活
 @user.route('/activate/<token>')
 def activate(token):
+    # 根据已有的元素和秘钥生成一个加密的令牌
     s = Serializer(current_app.config['SECRET_KEY'])
     try:
         data = s.loads(token)
@@ -51,11 +53,19 @@ def activate(token):
 
 
 
-
-
-
 # 登陆
-@user.route('/login/')
+@user.route('/login/', methods=['GET', 'POST'])
 def login():
-    return '终迎来到登陆'
-
+    form = login_form()
+    if form.validate_on_submit():
+        u = User.query.filter(User.username == form.username.data).first()
+        if not u:
+            flash('无效用户')
+        elif not u.cinfirmed:
+            flash('账户未激活，请先激活')
+        elif u.password != form.password.data:
+            flash('密码错误')
+        else:
+            flash('登陆成功')
+            return redirect(url_for('main.index'))
+    return render_template('user/login.html', form=form)
