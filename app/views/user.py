@@ -1,4 +1,6 @@
-from flask import Blueprint, render_template, flash, redirect, url_for, current_app
+from flask import Blueprint, render_template, flash, redirect, url_for, current_app, request
+# login_user管理当前的用户, login_required登录保护页面
+from flask_login import login_user, logout_user, login_required
 from itsdangerous import JSONWebSignatureSerializer as Serializer
 
 from app.email import send_mail
@@ -63,9 +65,30 @@ def login():
             flash('无效用户')
         elif not u.cinfirmed:
             flash('账户未激活，请先激活')
-        elif u.password != form.password.data:
+        elif not u.verify_password(form.password.data):
             flash('密码错误')
         else:
             flash('登陆成功')
-            return redirect(url_for('main.index'))
+            # login_user该方法会直接使用户进入登录后的界面
+            # remember参数是否记住我,默认为false
+            login_user(u, remember=form.remember.data)
+            # 登录后返回原网页
+            return redirect(request.args.get('next') or url_for('main.index'))
     return render_template('user/login.html', form=form)
+
+
+# 退出登录
+@user.route('/logout/')
+def logout():
+    # 使用户从登录状态转为未登录状态
+    logout_user()
+    flash('已经成功退出登录!')
+    return redirect(url_for('main.index'))
+
+
+# 受保护的页面，登陆后才可以访问
+@user.route('/test/')
+# 保护指定的路由
+@login_required
+def test():
+    return 'ddddd'

@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField
 from wtforms.validators import Length, EqualTo, Email, ValidationError, DataRequired
 
 from .models import User
@@ -27,4 +27,5 @@ class Register(FlaskForm):
 class login_form(FlaskForm):
     username = StringField('用户名:', validators=[DataRequired(message='请填入用户名')])
     password = PasswordField('密码:', validators=[DataRequired(message='请填入密码')])
+    remember = BooleanField('记住我？')
     submit = SubmitField('登陆')

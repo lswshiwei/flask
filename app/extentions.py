@@ -24,3 +24,7 @@ def init_extension(app):
     migrate.init_app(app)
     moment.init_app(app)
     login_manager.init_app(app)
+    # 登录保护跳转到指定页面
+    login_manager.login_view = 'user.login'
+    #     指定页面显示信息
+    login_manager.login_message = '请先登录，方可访问本页面'
